@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ContextProvider>
           <GlobalStyleProvider>
             <Sidebar />
-            {children}
+            <div className="w-full">{children}</div>
           </GlobalStyleProvider>
         </ContextProvider>
       </body>

@@ -34,3 +34,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Use with ClerkJS
+
+include a .env.local file that has the following data:
+
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your project key here
+CLERK_SECRET_KEY=your secret key here
+
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/signin
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/signup
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_OUT_URL=/signin
+```

@@ -42,6 +42,14 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
+    const { userId } = auth();
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized", status: 401 });
+    }
+    const tasks = await prisma.task.findMany({
+      where: { userId },
+    });
+    return NextResponse.json(tasks);
   } catch (e) {
     console.log("Error getting Tasks; ", e);
     return NextResponse.json({ error: "Error getting tasks", status: 500 });

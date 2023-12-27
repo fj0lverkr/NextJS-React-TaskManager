@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <body className={inter.className}>
           <ContextProvider>
             <GlobalStyleProvider>
-              {userId && <Sidebar />}
+              {userId ? <Sidebar /> : null}
               <div className="w-full">{children}</div>
             </GlobalStyleProvider>
           </ContextProvider>

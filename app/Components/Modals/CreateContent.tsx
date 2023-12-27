@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 function CreateContent() {
@@ -11,7 +11,7 @@ function CreateContent() {
   const [completed, setCompleted] = useState(false);
   const [important, setImportant] = useState(false);
 
-  const handleChange = (field: string) => (e: ChangeEvent) => {
+  const handleChange = (field: string) => (e: any) => {
     switch (field) {
       case "title":
         setTitle(e.target.value);
@@ -33,7 +33,7 @@ function CreateContent() {
     }
   };
 
-  const handleSubmit = async (e: SubmitEvent) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const task = {
       title,

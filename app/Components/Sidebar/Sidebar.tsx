@@ -25,7 +25,12 @@ function Sidebar() {
       <div className="profile">
         <div className="profile-overlay" />
         <div className="image">
-          <Image width={70} height={70} src="/avatar.jpeg" alt="profile" />
+          <Image
+            width={70}
+            height={70}
+            src={user?.hasImage ? user.imageUrl : "/avatar.jpeg"}
+            alt="profile"
+          />
         </div>
         <h1>
           <span>John</span>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito } from "next/font/google";
 import React, { ReactNode } from "react";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import "./globals.css";
@@ -7,7 +7,10 @@ import ContextProvider from "./providers/ContextProvider";
 import GlobalStyleProvider from "./providers/GlobalStyleProvider";
 import { ClerkProvider, auth } from "@clerk/nextjs";
 
-const inter = Inter({ subsets: ["latin"] });
+const nunito = Nunito({
+  weight: ["400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             referrerPolicy="no-referrer"
           />
         </head>
-        <body className={inter.className}>
+        <body className={nunito.className}>
           <ContextProvider>
             <GlobalStyleProvider>
               {userId ? <Sidebar /> : null}

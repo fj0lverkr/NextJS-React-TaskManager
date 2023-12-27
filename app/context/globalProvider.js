@@ -4,7 +4,6 @@ import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import themes from "./themes";
 import toast from "react-hot-toast";
-import { currentUser } from "@clerk/nextjs";
 
 export const GlobalContext = createContext();
 export const GlobalUpdateContext = createContext();
@@ -28,7 +27,6 @@ export const GlobalProvider = ({ children }) => {
 
   useEffect(() => {
     getAllTasks();
-    getCurrentUser();
   }, []);
 
   return (

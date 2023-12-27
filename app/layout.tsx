@@ -5,7 +5,7 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import "./globals.css";
 import ContextProvider from "./providers/ContextProvider";
 import GlobalStyleProvider from "./providers/GlobalStyleProvider";
-import { ClerkProvider, auth } from "@clerk/nextjs";
+import { ClerkProvider, auth, currentUser } from "@clerk/nextjs";
 
 const nunito = Nunito({
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -23,6 +23,7 @@ export default async function RootLayout({
   children: ReactNode;
 }) {
   const { userId } = auth();
+  const user = JSON.stringify(await currentUser());
   return (
     <ClerkProvider>
       <html lang="en">
@@ -38,7 +39,7 @@ export default async function RootLayout({
         <body className={nunito.className}>
           <ContextProvider>
             <GlobalStyleProvider>
-              {userId ? <Sidebar /> : null}
+              {userId ? <Sidebar userData={user!} /> : null}
               <div className="w-full">{children}</div>
             </GlobalStyleProvider>
           </ContextProvider>

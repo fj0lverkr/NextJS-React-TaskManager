@@ -11,7 +11,10 @@ import Button from "../Button/Button";
 import { logout } from "@/app/utils/Icons";
 import { useClerk } from "@clerk/nextjs";
 
-function Sidebar() {
+interface Props {
+  userData: string;
+}
+function Sidebar({ userData }: Props) {
   const { theme } = useGlobalState();
   const router = useRouter();
   const pathName = usePathname();
@@ -19,7 +22,7 @@ function Sidebar() {
     router.push(link);
   };
   const { signOut } = useClerk();
-
+  const user = JSON.parse(userData);
   return (
     <SidebarStyled theme={theme}>
       <div className="profile">
@@ -33,8 +36,8 @@ function Sidebar() {
           />
         </div>
         <h1>
-          <span>John</span>
-          <span>Doe</span>
+          <span>{user.firstName}</span>
+          <span>{user.lastName}</span>
         </h1>
       </div>
       <ul className="nav-items">

@@ -24,6 +24,20 @@ export const GlobalProvider = ({ children }) => {
     } catch (e) {
       console.log(e);
       toast.error("Something went wrong while getting your tasks.");
+      setIsLoading(false);
+    }
+  };
+
+  const deleteTask = async (id) => {
+    setIsLoading(true);
+    try {
+      const res = await axios.delete(`/api/tasks/${id}`);
+      toast.success("Task deleted.");
+      getAllTasks();
+    } catch (e) {
+      console.log(e);
+      toast.error("Something went wrong while deleting the task.");
+      setIsLoading(false);
     }
   };
 
@@ -37,6 +51,8 @@ export const GlobalProvider = ({ children }) => {
         theme,
         tasks,
         user,
+        deleteTask,
+        isLoading,
       }}
     >
       <GlobalUpdateContext.Provider value={{}}>

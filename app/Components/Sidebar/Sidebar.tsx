@@ -9,31 +9,35 @@ import React from "react";
 import styled from "styled-components";
 import Button from "../Button/Button";
 import { logout } from "@/app/utils/Icons";
-import { useClerk } from "@clerk/nextjs";
+import { UserButton, useClerk, useUser } from "@clerk/nextjs";
 
 function Sidebar() {
-  const { theme, user } = useGlobalState();
+  const { theme } = useGlobalState();
   const router = useRouter();
   const pathName = usePathname();
   const handleClick = (link: string) => {
     router.push(link);
   };
   const { signOut } = useClerk();
+  const { user } = useUser();
+  const { firstName, lastName, imageUrl } = user || {
+    firstName: "",
+    lastName: "",
+    imageUrl: "/avatar.png",
+  };
+
   return (
     <SidebarStyled theme={theme}>
       <div className="profile">
         <div className="profile-overlay" />
         <div className="image">
-          <Image
-            width={70}
-            height={70}
-            src={user?.hasImage ? user.imageUrl : "/avatar.png"}
-            alt="profile"
-          />
+          <Image width={70} height={70} src={imageUrl} alt="profile" />
         </div>
-        <h1>
-          <span>{user?.firstName}</span>
-          <span>{user?.lastName}</span>
+        <div className="user-btn z-20 absolute top-0 h-full w-full">
+          <UserButton />
+        </div>
+        <h1 className="capitalize">
+          {firstName} {lastName}
         </h1>
       </div>
       <ul className="nav-items">
@@ -147,6 +151,24 @@ const SidebarStyled = styled.nav`
 
       img {
         transform: scale(1.1);
+      }
+    }
+  }
+
+  .user-btn {
+    .cl-rootBox {
+      width: 100%;
+      height: 100%;
+
+      .cl-userButtonBox {
+        width: 100%;
+        height: 100%;
+
+        .cl-userButtonTrigger {
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+        }
       }
     }
   }

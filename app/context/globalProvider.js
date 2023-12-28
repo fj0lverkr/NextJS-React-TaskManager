@@ -54,7 +54,6 @@ export const GlobalProvider = ({ children }) => {
       value={{
         theme,
         tasks,
-        user,
         deleteTask,
         isLoading,
         completedTasks,

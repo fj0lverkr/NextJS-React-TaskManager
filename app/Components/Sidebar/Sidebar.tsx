@@ -11,18 +11,14 @@ import Button from "../Button/Button";
 import { logout } from "@/app/utils/Icons";
 import { useClerk } from "@clerk/nextjs";
 
-interface Props {
-  userData: string;
-}
-function Sidebar({ userData }: Props) {
-  const { theme } = useGlobalState();
+function Sidebar() {
+  const { theme, user } = useGlobalState();
   const router = useRouter();
   const pathName = usePathname();
   const handleClick = (link: string) => {
     router.push(link);
   };
   const { signOut } = useClerk();
-  const user = JSON.parse(userData);
   return (
     <SidebarStyled theme={theme}>
       <div className="profile">
@@ -31,13 +27,13 @@ function Sidebar({ userData }: Props) {
           <Image
             width={70}
             height={70}
-            src={user?.hasImage ? user.imageUrl : "/avatar.jpeg"}
+            src={user?.hasImage ? user.imageUrl : "/avatar.png"}
             alt="profile"
           />
         </div>
         <h1>
-          <span>{user.firstName}</span>
-          <span>{user.lastName}</span>
+          <span>{user?.firstName}</span>
+          <span>{user?.lastName}</span>
         </h1>
       </div>
       <ul className="nav-items">

@@ -1,8 +1,10 @@
 "use client";
 
-import axios from "axios";
+import { useGlobalState } from "@/app/context/globalProvider";
+import { plus } from "@/app/utils/Icons";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
+import styled from "styled-components";
+import Button from "../Button/Button";
 
 function CreateContent() {
   const [title, setTitle] = useState("");
@@ -10,6 +12,7 @@ function CreateContent() {
   const [date, setDate] = useState("");
   const [completed, setCompleted] = useState(false);
   const [important, setImportant] = useState(false);
+  const { theme, createTask } = useGlobalState();
 
   const handleChange = (field: string) => (e: any) => {
     switch (field) {
@@ -42,22 +45,11 @@ function CreateContent() {
       completed,
       important,
     };
-
-    try {
-      const res = await axios.post("/api/tasks", task);
-      if (res.data.error) {
-        toast.error(res.data.error);
-      } else {
-        toast.success("Task created successfully");
-      }
-    } catch (e) {
-      toast.error("Something went wrong while processing the request.");
-      console.log(e);
-    }
+    await createTask(task);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <StyledForm onSubmit={handleSubmit} theme={theme}>
       <h1>Create a Task</h1>
       <div className="input-control">
         <label htmlFor="title">Title</label>
@@ -91,7 +83,7 @@ function CreateContent() {
           onChange={handleChange("date")}
         />
       </div>
-      <div className="input-control">
+      <div className="input-control toggler">
         <label htmlFor="completed">Completed</label>
         <input
           type="checkbox"
@@ -101,7 +93,7 @@ function CreateContent() {
           onChange={handleChange("completed")}
         />
       </div>
-      <div className="input-control">
+      <div className="input-control toggler">
         <label htmlFor="important">Important</label>
         <input
           type="checkbox"
@@ -111,11 +103,83 @@ function CreateContent() {
           onChange={handleChange("important")}
         />
       </div>
-      <div className="submit-btn">
-        <button type="submit">Submit</button>
+      <div className="submit-btn flex justify-end">
+        <Button
+          type="submit"
+          name="Create Task"
+          icon={plus}
+          padding="0.8rem 2rem"
+          borderRad="0.8rem"
+          fw="500"
+          fs="1.2rem"
+          background="rgba(0, 163, 255)"
+        />
       </div>
-    </form>
+    </StyledForm>
   );
 }
+
+const StyledForm = styled.form`
+  color: ${(props) => props.theme.colorGrey1};
+
+  > h1 {
+    font-size: clamp(1.2rem, 5vw, 1.6rem);
+    font-weight: 600;
+  }
+
+  .input-control {
+    position: relative;
+    margin: 1.6rem 0;
+    font-weight: 500;
+
+    label {
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      font-size: clamp(0.9rem, 5vw, 1.2rem);
+
+      span {
+        color: ${(props) => props.theme.colorGrey3};
+      }
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: none;
+      padding: 1rem;
+      resize: none;
+      background-color: ${(props) => props.theme.colorGreyDark};
+      color: ${(props) => props.theme.colorGrey2};
+      border-radius: 0.5rem;
+    }
+  }
+
+  .submit-btn button {
+    transition: all 0.35s ease-in-out;
+    i {
+      color: ${(props) => props.theme.colorGrey0};
+    }
+
+    &:hover {
+      background: ${(props) => props.theme.colorGreenDark} !important;
+      color: ${(props) => props.theme.colorWhite} !important;
+    }
+  }
+
+  .toggler {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    label {
+      flex: 1;
+      cursor: pointer;
+    }
+
+    input {
+      width: initial;
+    }
+  }
+`;
 
 export default CreateContent;

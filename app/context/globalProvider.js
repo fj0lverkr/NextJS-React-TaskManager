@@ -12,9 +12,13 @@ export const GlobalProvider = ({ children }) => {
   const [selectedTheme, setSelectedTheme] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const [modal, setModal] = useState(false);
   const theme = themes[selectedTheme];
   const { user } = useUser();
 
+  const toggleModal = () => {
+    setModal(!modal);
+  };
   const getAllTasks = async () => {
     setIsLoading(true);
     try {
@@ -32,12 +36,36 @@ export const GlobalProvider = ({ children }) => {
   const incompleteTasks = tasks.filter((task) => task.isCompleted === false);
   const importantTasks = tasks.filter((task) => task.isImportant === true);
 
+  const createTask = async (task) => {
+    setIsLoading(true);
+    setModal(false);
+    try {
+      const res = await axios.post("/api/tasks", task);
+      if (!res.data.error) {
+        toast.success("Task created.");
+        getAllTasks();
+      } else {
+        toast.error(res.data.error);
+        setIsLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error("Something went wrong while creating the task.");
+      setIsLoading(false);
+    }
+  };
+
   const deleteTask = async (id) => {
     setIsLoading(true);
     try {
       const res = await axios.delete(`/api/tasks/${id}`);
-      toast.success("Task deleted.");
-      getAllTasks();
+      if (!res.data.error) {
+        toast.success("Task deleted.");
+        getAllTasks();
+      } else {
+        toast.error(res.data.error);
+        setIsLoading(false);
+      }
     } catch (e) {
       console.log(e);
       toast.error("Something went wrong while deleting the task.");
@@ -73,12 +101,15 @@ export const GlobalProvider = ({ children }) => {
       value={{
         theme,
         tasks,
+        createTask,
         deleteTask,
         updateTask,
         isLoading,
         completedTasks,
         incompleteTasks,
         importantTasks,
+        modal,
+        toggleModal,
       }}
     >
       <GlobalUpdateContext.Provider value={{}}>

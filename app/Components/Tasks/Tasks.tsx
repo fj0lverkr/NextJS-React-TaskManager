@@ -1,10 +1,12 @@
 "use client";
 
 import { useGlobalState } from "@/app/context/globalProvider";
+import { plus } from "@/app/utils/Icons";
 import React from "react";
 import styled from "styled-components";
+import CreateContent from "../Modals/CreateContent";
+import Modal from "../Modals/Modal";
 import TaskItem from "../TaskItem/TaskItem";
-import { plus } from "@/app/utils/Icons";
 
 interface Props {
   title: string;
@@ -12,31 +14,36 @@ interface Props {
 }
 
 function Tasks({ title, tasks }: Props) {
-  const { theme, isLoading } = useGlobalState();
+  const { theme, isLoading, modal, toggleModal } = useGlobalState();
   return (
-    <TaskStyled theme={theme}>
-      <h1>{title}</h1>
-      {!isLoading ? (
-        <div className="tasks grid">
-          {tasks.map((t) => (
-            <TaskItem
-              title={t.title}
-              description={t.description}
-              date={t.date}
-              isCompleted={t.isCompleted}
-              isImportant={t.isImportant}
-              id={t.id}
-              key={t.id}
-            />
-          ))}
-          <button className="create-task">{plus} Add New Task</button>
-        </div>
-      ) : (
-        <div className="tasks-loader w-full h-9 flex justify-center content-center">
-          <span className="loader"></span>
-        </div>
-      )}
-    </TaskStyled>
+    <>
+      {modal ? <Modal content={<CreateContent />} /> : null}
+      <TaskStyled theme={theme}>
+        <h1>{title}</h1>
+        {!isLoading ? (
+          <div className="tasks grid">
+            {tasks.map((t) => (
+              <TaskItem
+                title={t.title}
+                description={t.description}
+                date={t.date}
+                isCompleted={t.isCompleted}
+                isImportant={t.isImportant}
+                id={t.id}
+                key={t.id}
+              />
+            ))}
+            <button className="create-task" onClick={toggleModal}>
+              {plus} Add New Task
+            </button>
+          </div>
+        ) : (
+          <div className="tasks-loader w-full h-9 flex justify-center content-center">
+            <span className="loader"></span>
+          </div>
+        )}
+      </TaskStyled>
+    </>
   );
 }
 

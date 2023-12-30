@@ -45,6 +45,25 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  const updateTask = async (id, task) => {
+    setIsLoading(true);
+    try {
+      const res = await axios.put(`/api/tasks/${id}`, task);
+      console.log(res);
+      if (!res.data.error) {
+        toast.success("Task updated.");
+        getAllTasks();
+      } else {
+        toast.error(res.data.error);
+        setIsLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error("Something went wrong while updating the task.");
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (user) getAllTasks();
   }, [user]);
@@ -55,6 +74,7 @@ export const GlobalProvider = ({ children }) => {
         theme,
         tasks,
         deleteTask,
+        updateTask,
         isLoading,
         completedTasks,
         incompleteTasks,

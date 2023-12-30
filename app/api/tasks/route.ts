@@ -55,11 +55,3 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Error getting tasks", status: 500 });
   }
 }
-
-export async function PUT(req: Request) {
-  try {
-  } catch (e) {
-    console.log("Error updating Task; ", e);
-    return NextResponse.json({ error: "Error creating task", status: 500 });
-  }
-}

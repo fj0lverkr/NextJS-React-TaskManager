@@ -47,6 +47,8 @@ const themes = [
     borderRadiusMd: "12px",
     borderRadiusMd2: "15px",
     borderRadiusSm: "8px",
+    colorBlue: "rgba(0, 163, 255)",
+    colorRed: "#D32F2F",
   },
   {
     name: "light",

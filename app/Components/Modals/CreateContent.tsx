@@ -90,6 +90,28 @@ function CreateContent() {
           id="completed"
           value={completed.toString()}
           name="completed"
+          className="
+          h-3.5
+          w-8
+          appearance-none
+          rounded-[0.4375rem]
+          after:absolute
+          after:z-[2]
+          after:-mt-[0.1875rem]
+          after:h-5
+          after:w-5
+          after:rounded-full
+          after:border-none
+          after:content-['']
+          checked:after:absolute
+          checked:after:z-[2]
+          checked:after:-mt-[3px]
+          checked:after:ml-[1.0625rem]
+          checked:after:h-5
+          checked:after:w-5
+          checked:after:rounded-full
+          checked:after:border-none
+          checked:after:content-['']"
           onChange={handleChange("completed")}
         />
       </div>
@@ -100,6 +122,29 @@ function CreateContent() {
           id="important"
           value={important.toString()}
           name="important"
+          role="switch"
+          className="
+          h-3.5
+          w-8
+          appearance-none
+          rounded-[0.4375rem]
+          after:absolute
+          after:z-[2]
+          after:-mt-[0.1875rem]
+          after:h-5
+          after:w-5
+          after:rounded-full
+          after:border-none
+          after:content-['']
+          checked:after:absolute
+          checked:after:z-[2]
+          checked:after:-mt-[3px]
+          checked:after:ml-[1.0625rem]
+          checked:after:h-5
+          checked:after:w-5
+          checked:after:rounded-full
+          checked:after:border-none
+          checked:after:content-['']"
           onChange={handleChange("important")}
         />
       </div>
@@ -112,7 +157,7 @@ function CreateContent() {
           borderRad="0.8rem"
           fw="500"
           fs="1.2rem"
-          background="rgba(0, 163, 255)"
+          background={theme.colorBlue}
         />
       </div>
     </StyledForm>
@@ -174,10 +219,22 @@ const StyledForm = styled.form`
     label {
       flex: 1;
       cursor: pointer;
+      margin-bottom: 0;
     }
 
     input {
-      width: initial;
+      width: 2rem;
+      padding: 0;
+      -webkit-box-shadow: inset 0px 0px 3px 2px rgba(0, 0, 0, 0.3);
+      -moz-box-shadow: inset 0px 0px 3px 2px rgba(0, 0, 0, 0.3);
+      box-shadow: inset 0px 0px 3px 2px rgba(0, 0, 0, 0.3);
+      background-color: ${(props) => props.theme.colorRed};
+      &::after {
+        background-color: ${(props) => props.theme.colorGreyDark};
+      }
+      &:checked {
+        background-color: ${(props) => props.theme.colorGreenDark};
+      }
     }
   }
 `;

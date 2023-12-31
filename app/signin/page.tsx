@@ -3,12 +3,12 @@
 import { SignIn } from "@clerk/nextjs";
 import React from "react";
 
-function page() {
+function Page() {
   return (
-    <div>
+    <div className="h-full flex items-center justify-center">
       <SignIn />
     </div>
   );
 }
 
-export default page;
+export default Page;

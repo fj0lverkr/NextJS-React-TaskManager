@@ -55,6 +55,7 @@ const TaskStyled = styled.main`
   border-radius: 1rem;
   height: 100%;
   overflow-y: auto;
+  scrollbar-width: thin;
 
   &::-webkit-scrollbar {
     width: 0.5rem;

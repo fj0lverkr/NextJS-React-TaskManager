@@ -1,7 +1,7 @@
 "use client";
 
 import { useGlobalState } from "@/app/context/globalProvider";
-import { plus } from "@/app/utils/Icons";
+import { add, plus } from "@/app/utils/Icons";
 import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "../Button/Button";
@@ -152,7 +152,7 @@ function CreateContent() {
         <Button
           type="submit"
           name="Create Task"
-          icon={plus}
+          icon={add}
           padding="0.8rem 2rem"
           borderRad="0.8rem"
           fw="500"
@@ -228,7 +228,7 @@ const StyledForm = styled.form`
       -webkit-box-shadow: inset 0px 0px 3px 2px rgba(0, 0, 0, 0.3);
       -moz-box-shadow: inset 0px 0px 3px 2px rgba(0, 0, 0, 0.3);
       box-shadow: inset 0px 0px 3px 2px rgba(0, 0, 0, 0.3);
-      background-color: ${(props) => props.theme.colorRed};
+      background-color: ${(props) => props.theme.colorDanger};
       &::after {
         background-color: ${(props) => props.theme.colorGreyDark};
       }

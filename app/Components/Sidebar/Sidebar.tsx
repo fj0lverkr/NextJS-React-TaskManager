@@ -5,13 +5,14 @@ import menu from "@/app/utils/menu";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "../Button/Button";
-import { logout } from "@/app/utils/Icons";
+import { arrowLeft, bars, logout } from "@/app/utils/Icons";
 import { UserButton, useClerk, useUser } from "@clerk/nextjs";
 
 function Sidebar() {
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const { theme } = useGlobalState();
   const router = useRouter();
   const pathName = usePathname();
@@ -27,7 +28,13 @@ function Sidebar() {
   };
 
   return (
-    <SidebarStyled theme={theme}>
+    <SidebarStyled theme={theme} collapsed={isCollapsed}>
+      <button
+        className="toggle-nav"
+        onClick={() => setIsCollapsed(!isCollapsed)}
+      >
+        {isCollapsed ? bars : arrowLeft}
+      </button>
       <div className="profile">
         <div className="profile-overlay" />
         <div className="image">
@@ -72,7 +79,7 @@ function Sidebar() {
   );
 }
 
-const SidebarStyled = styled.nav`
+const SidebarStyled = styled.nav<{ collapsed: boolean }>`
   position: relative;
   width: ${(props) => props.theme.sidebarWidth};
   background-color: ${(props) => props.theme.colorBg2};
@@ -82,6 +89,33 @@ const SidebarStyled = styled.nav`
   flex-direction: column;
   justify-content: space-between;
   color: ${(props) => props.theme.colorGrey3};
+
+  @media screen and (max-width: 768px) {
+    position: fixed;
+    height: calc(100vh - 2rem);
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.53, 0.21, 0, 1);
+    transform: ${(props) =>
+      props.collapsed ? "translateX(-107%)" : "translateX(0)"};
+
+    .toggle-nav {
+      display: block !important;
+    }
+  }
+
+  .toggle-nav {
+    display: none;
+    position: absolute;
+    right: -55px;
+    top: 1.8rem;
+    padding: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-right: 2px solid ${(props) => props.theme.borderColor2};
+    border-top: 2px solid ${(props) => props.theme.borderColor2};
+    border-bottom: 2px solid ${(props) => props.theme.borderColor2};
+    background-color: ${(props) => props.theme.colorBg2};
+  }
 
   .profile {
     margin: 1.5rem;

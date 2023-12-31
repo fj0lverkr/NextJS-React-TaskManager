@@ -1,5 +1,5 @@
-export const bars = <i className="fa-solid fa-bars fa-beat" />;
-export const arrowLeft = <i className="fa-solid fa-arrow-left fa-beat" />;
+export const bars = <i className="fa-solid fa-bars" />;
+export const arrowLeft = <i className="fa-solid fa-arrow-left" />;
 export const add = <i className="fa-solid fa-plus" />;
 export const moon = <i className="fa-solid fa-moon" />;
 export const search = <i className="fa-solid fa-magnifying-glass" />;

@@ -1,18 +1,29 @@
 "use client";
 
 import { useGlobalState } from "@/app/context/globalProvider";
-import { add, plus } from "@/app/utils/Icons";
+import { add, save } from "@/app/utils/Icons";
 import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "../Button/Button";
+import { Task } from "@prisma/client";
 
-function CreateContent() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
-  const [completed, setCompleted] = useState(false);
-  const [important, setImportant] = useState(false);
-  const { theme, createTask } = useGlobalState();
+interface Props {
+  editTask: Task | null;
+}
+
+function CreateContent({ editTask }: Props) {
+  const [title, setTitle] = useState(editTask ? editTask.title : "");
+  const [description, setDescription] = useState(
+    editTask ? editTask.description : "",
+  );
+  const [date, setDate] = useState(editTask ? editTask.date : "");
+  const [completed, setCompleted] = useState(
+    editTask ? editTask.isCompleted : false,
+  );
+  const [important, setImportant] = useState(
+    editTask ? editTask.isImportant : false,
+  );
+  const { theme, createTask, updateTask } = useGlobalState();
 
   const handleChange = (field: string) => (e: any) => {
     switch (field) {
@@ -45,7 +56,11 @@ function CreateContent() {
       completed,
       important,
     };
-    await createTask(task);
+    if (editTask) {
+      await updateTask(editTask.id, task);
+    } else {
+      await createTask(task);
+    }
   };
 
   return (
@@ -66,7 +81,7 @@ function CreateContent() {
         <label htmlFor="description">Description</label>
         <textarea
           id="description"
-          value={description}
+          value={description!}
           name="description"
           onChange={handleChange("description")}
           rows={4}
@@ -90,6 +105,7 @@ function CreateContent() {
           id="completed"
           value={completed.toString()}
           name="completed"
+          checked={completed}
           className="
           h-3.5
           w-8
@@ -123,6 +139,7 @@ function CreateContent() {
           value={important.toString()}
           name="important"
           role="switch"
+          checked={important}
           className="
           h-3.5
           w-8
@@ -151,8 +168,8 @@ function CreateContent() {
       <div className="submit-btn flex justify-end">
         <Button
           type="submit"
-          name="Create Task"
-          icon={add}
+          name={editTask ? "Save changes" : "Create Task"}
+          icon={editTask ? save : add}
           padding="0.8rem 2rem"
           borderRad="0.8rem"
           fw="500"

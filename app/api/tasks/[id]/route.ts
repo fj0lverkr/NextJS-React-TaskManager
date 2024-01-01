@@ -48,9 +48,23 @@ export const PUT = async (
       return NextResponse.json({ error: "Unauthorized", status: 401 });
     }
 
+    if (!title || !description || !date) {
+      return NextResponse.json({
+        error: "Missing required fields",
+        status: 400,
+      });
+    }
+    if (title.length < 3) {
+      return NextResponse.json({
+        error: "Title must be at least 3 characters long",
+        status: 400,
+      });
+    }
+
     const task = await prisma.task.findFirst({
       where: { id },
     });
+
     if (task && task.userId === userId) {
       const res = await prisma.task.update({
         where: { id },
@@ -60,6 +74,7 @@ export const PUT = async (
           date,
           isCompleted,
           isImportant,
+          updatedAt: new Date(),
         },
       });
       return NextResponse.json(res);

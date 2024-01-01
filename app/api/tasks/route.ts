@@ -40,7 +40,7 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET(req: Request) {
+export async function GET(_: Request) {
   try {
     const { userId } = auth();
     if (!userId) {

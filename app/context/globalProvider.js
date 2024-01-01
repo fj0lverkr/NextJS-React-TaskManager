@@ -79,6 +79,7 @@ export const GlobalProvider = ({ children }) => {
 
   const updateTask = async (id, task) => {
     setIsLoading(true);
+    setModal(false);
     try {
       const res = await axios.put(`/api/tasks/${id}`, task);
       console.log(res);

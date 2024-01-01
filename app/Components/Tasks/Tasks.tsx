@@ -2,11 +2,12 @@
 
 import { useGlobalState } from "@/app/context/globalProvider";
 import { plus } from "@/app/utils/Icons";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CreateContent from "../Modals/CreateContent";
 import Modal from "../Modals/Modal";
 import TaskItem from "../TaskItem/TaskItem";
+import { Task } from "@prisma/client";
 
 interface Props {
   title: string;
@@ -14,10 +15,17 @@ interface Props {
 }
 
 function Tasks({ title, tasks }: Props) {
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
   const { theme, isLoading, modal, toggleModal } = useGlobalState();
+  const handleTaskEditOnClick = (task: Task) => {
+    setEditingTask(task);
+    toggleModal(true);
+  };
   return (
     <>
-      {modal ? <Modal content={<CreateContent />} /> : null}
+      {modal ? (
+        <Modal content={<CreateContent editTask={editingTask} />} />
+      ) : null}
       <TaskStyled theme={theme}>
         <h1>{title}</h1>
         {!isLoading ? (
@@ -31,9 +39,18 @@ function Tasks({ title, tasks }: Props) {
                 isImportant={t.isImportant}
                 id={t.id}
                 key={t.id}
+                onEditClick={() => {
+                  handleTaskEditOnClick(t);
+                }}
               />
             ))}
-            <button className="create-task" onClick={toggleModal}>
+            <button
+              className="create-task"
+              onClick={() => {
+                setEditingTask(null);
+                toggleModal(true);
+              }}
+            >
               {plus} Add New Task
             </button>
           </div>

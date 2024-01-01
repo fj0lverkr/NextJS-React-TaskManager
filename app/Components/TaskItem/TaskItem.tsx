@@ -13,6 +13,7 @@ interface Props {
   isCompleted: boolean;
   isImportant: boolean;
   id: string;
+  onEditClick: () => void;
 }
 function TaskItem({
   title,
@@ -21,6 +22,7 @@ function TaskItem({
   isCompleted,
   isImportant,
   id,
+  onEditClick,
 }: Props) {
   const { theme, deleteTask, updateTask } = useGlobalState();
 
@@ -61,7 +63,9 @@ function TaskItem({
             Incomplete
           </button>
         )}
-        <button className="edit">{edit}</button>
+        <button className="edit" onClick={onEditClick}>
+          {edit}
+        </button>
         <button className="delete" onClick={() => deleteTask(id)}>
           {trash}
         </button>
